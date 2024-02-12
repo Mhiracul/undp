@@ -161,10 +161,13 @@ const Form = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/api/submit-form", {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const response = await fetch(
+        "https://undp.onrender.com/api/submit-form",
+        {
+          method: "POST",
+          body: formDataToSend,
+        }
+      );
       console.log("Server Response:", response); // Log the response object
       if (response.ok) {
         toast.success("Thank You For Applying!");

@@ -29,13 +29,11 @@ function Navbar() {
         <div className=" ">
           <Image src={Logo} alt="logo" className="w-[40px] h-14" />
         </div>
-        <div className="block md:hidden">
-          <h1 className="text-black">+(713) 364-4066</h1>
-        </div>
+        <div className="block md:hidden"></div>
 
         <div className="inline-flex items-center gap-2">
           <FaPhone color="#000" size={12} />
-          <h1 className="text-black text-sm">+(713) 364-4066</h1>
+          <h1 className="text-black text-xs">+(713) 364-4066</h1>
         </div>
       </div>
     </div>
