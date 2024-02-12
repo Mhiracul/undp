@@ -18,7 +18,7 @@ const Hero = () => {
           background:
             "linear-gradient(99deg, rgba(115, 173, 254, 0.48) 43.16%, rgba(82, 110, 150, 0.00) 76.84%), url('/happy.svg') lightgray",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
+          backgroundSize: "contain", // Change this to "contain"
           width: "100%",
         }}
       >

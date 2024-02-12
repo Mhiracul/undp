@@ -261,6 +261,9 @@ const EmploymentForm = () => {
         <div className=" p-4 w-full text-center border-[#dedede] border">
           <h1 className="text-black ">PERSONAL INFORMATION</h1>
         </div>
+        <p className="text-base text-black font-medium">
+          Please Fill Out The Entire Application
+        </p>
       </div>
       <div className="container py-10 w-full md:mx-auto md:px-20 px-10">
         <form onSubmit={handleSubmit}>
