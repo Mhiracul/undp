@@ -249,25 +249,22 @@ const Form = () => {
         </div>
         <div className="">
           <p className="text-black text-sm mb-3">
-            Submit your details To apply for the UNDP Small Grant program you
-            must be above 18 years of age. These Grants are not a loan and you
-            don't need to pay back. Fill out your information and you can choose
-            your preferred Grant type from the list below. You can only receive
-            your payment through Direct Deposit or Debit Card.
+            Submit your details to apply for the UNDP Small Grant Program.
+            Applicants must be above 18 years of age. These grants are not loans
+            and do not require repayment. Fill out your information, and you can
+            choose your preferred grant type from the list below. Payments are
+            only available via direct deposit or debit card.
           </p>
 
           <p className="text-black text-sm">
-            Your application will be approved based on your credit score. If
-            your credit score is below 300, we will automatically reject your
-            application. If your credit score is between 300 to 850 then you
-            have a high chance of getting approved. If your application is
-            denied, our representatives are online to assist you or you can
-            reapply for a different Grant. We'll update you via email as soon as
-            we know if your Grant has been approved or not, and then we can
-            proceed to funding. As a reminder, the UNDP Grants (United Nations
-            Development Programme Grants) do not need to be repaid. An
-            underwriter will contact you within 24 hours as soon as your
-            application has been approved. Our requirements and information
+            Applications are evaluated based on credit score. Scores below 300
+            will result in automatic rejection. Scores between 300 and 850 have
+            a high chance of approval. If your application is denied, our
+            representatives are available online to assist you, or you can
+            reapply for a different grant. You will receive email updates
+            regarding the status of your grant application. UNDP Grants (United
+            Nations Development Programme Grants) do not require repayment. An
+            underwriter will contact you within 24 hours of approval.
           </p>
         </div>
       </div>
