@@ -25,7 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
+.PhoneInputInput {
+  /* The phone number input stretches to fill all empty space */
+  flex: 1;
+  outline: none;
+  padding: 16px 20px;
+  /* The phone number input should shrink
+	   to make room for the extension input */
+  min-width: 0;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
