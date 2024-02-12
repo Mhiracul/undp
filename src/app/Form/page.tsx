@@ -241,7 +241,7 @@ const Form = () => {
         <h1 className="md:text-2xl text-base font-extrabold text-black uppercase text-center">
           United nation development programme grant(UNDP)
         </h1>
-        <div className="flex md:flex-row flex-col items-center md:gap-10 gap-5">
+        <div className="flex items-center md:gap-10 gap-5">
           <Image src="/undp.svg" alt="" width={100} height={100} />
           <FaPlus color="#000" size={20} />
 

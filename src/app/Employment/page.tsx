@@ -7,6 +7,7 @@ import VerificationMessage from "../api/VerificationMessage";
 import Select from "react-select";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { FaPlus } from "react-icons/fa6";
 
 interface StateOption {
   value: string;
@@ -247,17 +248,18 @@ const EmploymentForm = () => {
     <div className="h-full w-full bg-[#ccc]">
       <ToastContainer />
       <div className="py-10 flex flex-col  items-center gap-3 mx-auto container md:px-20 px-10">
+        <div className="flex items-center md:gap-10 gap-5">
+          <Image src="/elite.svg" alt="" width={100} height={100} />
+          <FaPlus color="#000" size={20} />
+
+          <Image src="/ID.svg" alt="" width={100} height={100} />
+        </div>
         <h1 className="md:text-2xl text-base font-extrabold text-black uppercase text-center">
-          Employment Application Form
+          JOB Application Form
         </h1>
-        <h1 className="text-black shadow-md border-[#ccc] border">
-          PERSONAL INFORMATION
-        </h1>
-        <div className="">
-          <p className="text-black text-center text-sm mb-3">
-            Please fill out the following information to apply for employment
-            with our organization.
-          </p>
+
+        <div className=" p-4 w-full text-center border-[#dedede] border">
+          <h1 className="text-black ">PERSONAL INFORMATION</h1>
         </div>
       </div>
       <div className="container py-10 w-full md:mx-auto md:px-20 px-10">
@@ -465,6 +467,11 @@ const EmploymentForm = () => {
           <button type="submit" className="bg-[#0C51A1] w-full mt-4 px-2 py-3">
             Submit
           </button>
+
+          <p className="text-black text-sm text-bold mt-2">
+            Note: Your application will be processed and we will reach out to
+            you.
+          </p>
         </form>
         {submitted && (
           <VerificationMessage
