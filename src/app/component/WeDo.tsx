@@ -26,14 +26,15 @@ const WeDo = () => {
 
           <div className="mt-3 leading-8">
             <p>
-              Our grant management solutions are designed to streamline the
-              entire process, from identifying funding opportunities to
-              successful grant implementation.
+              The UNDP GEF-SGP announces the 2024 "call for proposals" to award
+              small grants of up to $50,000 under its Micro, Small, and Medium
+              Enterprises (MSMEs),Students and Business owners,
             </p>
 
-            <p className="mt-6">
-              Let us handle the complexities of grant management, so you can
-              focus on achieving your project objectives.
+            <p className="mt-1">
+              to Support Initiative to qualified organizations and individuals
+              to build and enhance the capacities of potential and established
+              MSMEs operating in the environment and natural resource ...
             </p>
 
             <p className="mt-6">
