@@ -249,7 +249,7 @@ const Form = () => {
         </div>
         <div className="">
           <p className="text-black text-sm mb-3">
-            Submit your details To apply for the UNDP VITA Grant program you
+            Submit your details To apply for the UNDP Small Grant program you
             must be above 18 years of age. These Grants are not a loan and you
             don't need to pay back. Fill out your information and you can choose
             your preferred Grant type from the list below. You can only receive
