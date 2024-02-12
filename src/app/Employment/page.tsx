@@ -19,10 +19,13 @@ interface CityOption {
 }
 
 interface FormData {
-  name: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
   address: string;
   phoneNumber: string;
   idOrDL: string;
+  motherMaidenName: string;
   ssn: string;
   zipCode: string;
   email: string;
@@ -34,9 +37,12 @@ interface FormData {
 
 const EmploymentForm = () => {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
     address: "",
     phoneNumber: "",
+    motherMaidenName: "",
     idOrDL: "",
     ssn: "",
     zipCode: "",
@@ -74,7 +80,16 @@ const EmploymentForm = () => {
         }
       }
     } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      let { name, value } = e.target;
+      if (name === "ssn") {
+        // Remove non-digit characters from input value
+        value = value.replace(/\D/g, "");
+        // Format SSN with dashes after the first three, next two, and final four digits
+        value = value
+          .replace(/^(\d{3})(\d{2})?(\d{0,4})?/, "$1-$2-$3")
+          .substr(0, 11);
+      }
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -140,8 +155,10 @@ const EmploymentForm = () => {
   };
 
   const isValidSSN = (ssn: string): boolean => {
-    const ssnPattern = /^\d{3}-\d{2}-\d{4}$/;
-    return ssnPattern.test(ssn);
+    // Remove dashes from SSN before validation
+    const ssnWithoutDashes = ssn.replace(/-/g, "");
+    const ssnPattern = /^\d{9}$/; // Updated pattern to match 9 digits without dashes
+    return ssnPattern.test(ssnWithoutDashes);
   };
 
   const isValidZipCode = (zipCode: string): boolean => {
@@ -208,11 +225,22 @@ const EmploymentForm = () => {
     { value: "Wyoming", label: "Wyoming" },
   ];
 
-  // Sample options for city dropdown
   const cityOptions = [
     { value: "nyc", label: "New York City" },
     { value: "la", label: "Los Angeles" },
-    // Add more cities as needed
+    { value: "chicago", label: "Chicago" },
+    { value: "houston", label: "Houston" },
+    { value: "phoenix", label: "Phoenix" },
+    { value: "philadelphia", label: "Philadelphia" },
+    { value: "sanantonio", label: "San Antonio" },
+    { value: "sandiego", label: "San Diego" },
+    { value: "dallas", label: "Dallas" },
+    { value: "sanfrancisco", label: "San Francisco" },
+    { value: "austin", label: "Austin" },
+    { value: "seattle", label: "Seattle" },
+    { value: "boston", label: "Boston" },
+    { value: "denver", label: "Denver" },
+    { value: "atlanta", label: "Atlanta" },
   ];
 
   return (
@@ -222,14 +250,13 @@ const EmploymentForm = () => {
         <h1 className="md:text-2xl text-base font-extrabold text-black uppercase text-center">
           Employment Application Form
         </h1>
+        <h1 className="text-black shadow-md border-[#ccc] border">
+          PERSONAL INFORMATION
+        </h1>
         <div className="">
           <p className="text-black text-center text-sm mb-3">
             Please fill out the following information to apply for employment
             with our organization.
-          </p>
-          <p className="text-black text-center  text-sm">
-            Your application will be processed, and we will reach out to you
-            regarding the next steps.
           </p>
         </div>
       </div>
@@ -237,16 +264,44 @@ const EmploymentForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label htmlFor="" className="text-black mb-3 font-bold uppercase">
-              Full Name
+              Name
             </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Full Name"
-              className="w-full mb-3 bg-white text-xs py-3 px-5 text-black "
-            />
+            <div className="mb-3 flex flex-col  gap-10 sm:flex-row">
+              <div className="w-full sm:w-1/2">
+                {" "}
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="First Name"
+                  className="w-full bg-white text-xs py-3 px-5 text-black "
+                  required
+                />
+              </div>
+              <div className="w-full sm:w-1/2">
+                <input
+                  type="text"
+                  name="middleName"
+                  value={formData.middleName}
+                  onChange={handleChange}
+                  placeholder="Middle"
+                  className="w-full bg-white text-xs py-3 px-5 text-black "
+                  required
+                />
+              </div>
+            </div>
+            <div className="w-full ">
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last"
+                className="w-full mb-3 bg-white text-xs py-3 px-5 text-black "
+                required
+              />
+            </div>
           </div>
           <div className="flex flex-col mt-6">
             <label htmlFor="" className="text-black mb-3 font-bold uppercase">
@@ -301,6 +356,23 @@ const EmploymentForm = () => {
               options={cityOptions}
               placeholder="City"
             />
+          </div>
+
+          <div className="mt-4">
+            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
+              What is Your Mother Maiden Name?
+            </label>{" "}
+            <div className="w-full ">
+              <input
+                type="text"
+                name="motherMaidenName"
+                value={formData.motherMaidenName}
+                onChange={handleChange}
+                placeholder="Mother maiden Name"
+                className="w-full mb-3 mt-4 bg-white text-xs py-3 px-5 text-black "
+                required
+              />
+            </div>
           </div>
 
           <div className="mt-4">
@@ -372,7 +444,7 @@ const EmploymentForm = () => {
               name="zipCode"
               value={formData.zipCode}
               onChange={handleChange}
-              placeholder="Zip Code"
+              placeholder="Zip Code (e.g 23456..)"
               className="w-full mb-3 mt-4 bg-white text-xs py-3 px-5 text-black "
             />
           </div>

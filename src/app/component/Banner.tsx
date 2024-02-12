@@ -37,8 +37,8 @@ const Hero = () => {
             <h1 className="font-bold text-base">
               The UNDP have got Good news.
             </h1>
-            <h1 className="inline-flex items-center gap-2">
-              Get your Grant processed as soon as possible with the
+            <h1 className="gap-2">
+              <h1> Get your Grant processed as soon as possible with the</h1>
               <Link href="https://ID.me">
                 {" "}
                 <h1 className="text-2xl text-[#202C3B] hover:text-[#2d4b70] underline">

@@ -2,6 +2,7 @@ import React from "react";
 import TypeWriter from "../api/TypeWriter";
 import Image from "next/image";
 import Link from "next/link";
+import { FaPlus } from "react-icons/fa6";
 
 const Job = () => {
   return (
@@ -16,7 +17,7 @@ const Job = () => {
             width: "100%",
           }}
         >
-          <div className="container mx-auto md:px-20 px-10 py-20">
+          <div className="container mx-auto md:px-20 px-10 py-20 w-full">
             <h1 className=" text-white text-xl mb-6 font-bold text-center">
               <TypeWriter text="Join Our Team: Exciting Job Opportunities Await!" />
             </h1>
