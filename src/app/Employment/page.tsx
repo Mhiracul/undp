@@ -321,19 +321,6 @@ const EmploymentForm = () => {
               className="w-full mb-3 bg-white text-xs py-3 px-5 text-black "
             />
           </div>
-          <div className="mt-4 outline-none">
-            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
-              Phone number
-            </label>
-            <PhoneInput
-              international
-              defaultCountry="US"
-              value={phoneValue}
-              onChange={handlePhoneChange}
-              placeholder="Enter phone number"
-              className="w-full mb-3 mt-4  bg-white text-xs px-3 text-black rounded-md outline-none focus:outline-none focus:border-none !important"
-            />
-          </div>
 
           <div className="mt-4">
             <label htmlFor="" className="text-black mb-3  font-bold uppercase">
@@ -360,6 +347,63 @@ const EmploymentForm = () => {
               onChange={(selectedOption) => handleCityChange(selectedOption)}
               options={cityOptions}
               placeholder="City"
+            />
+          </div>
+
+          <div className="mt-4">
+            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
+              Zip Code
+            </label>
+            <input
+              type="text"
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleChange}
+              placeholder="Zip Code (e.g 23456..)"
+              className="w-full mb-3 mt-4 bg-white text-xs py-3 px-5 text-black "
+            />
+          </div>
+          <div className="mt-4">
+            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
+              Social Security Number(SSN)
+            </label>
+            <input
+              type="text"
+              name="ssn"
+              value={formData.ssn}
+              onChange={handleChange}
+              placeholder="SSN"
+              className="w-full mb-3 mt-4 outline-none bg-white text-xs py-3 px-5 text-black "
+            />
+          </div>
+
+          <div className="mb-5.5 flex flex-col  gap-10 sm:flex-row">
+            <div className="w-full">
+              <label htmlFor="" className="text-black mb-3 font-bold uppercase">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full mb-3 mt-4 bg-white outline-none text-xs py-3 px-5 text-black "
+              />
+            </div>
+          </div>
+
+          <div className="mt-4 outline-none">
+            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
+              Phone number
+            </label>
+            <PhoneInput
+              international
+              defaultCountry="US"
+              value={phoneValue}
+              onChange={handlePhoneChange}
+              placeholder="Enter phone number"
+              className="w-full mb-3 mt-4  bg-white text-xs px-3 text-black rounded-md outline-none focus:outline-none focus:border-none !important"
             />
           </div>
 
@@ -422,47 +466,6 @@ const EmploymentForm = () => {
                 onChange={handleChange}
                 className="w-full mb-3 mt-4 outline-none bg-white text-xs py-3 px-5 text-black "
                 required
-              />
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
-              Social Security Number(SSN)
-            </label>
-            <input
-              type="text"
-              name="ssn"
-              value={formData.ssn}
-              onChange={handleChange}
-              placeholder="SSN"
-              className="w-full mb-3 mt-4 outline-none bg-white text-xs py-3 px-5 text-black "
-            />
-          </div>
-
-          <div className="mt-4">
-            <label htmlFor="" className="text-black mb-3  font-bold uppercase">
-              Zip Code
-            </label>
-            <input
-              type="text"
-              name="zipCode"
-              value={formData.zipCode}
-              onChange={handleChange}
-              placeholder="Zip Code (e.g 23456..)"
-              className="w-full mb-3 mt-4 bg-white text-xs py-3 px-5 text-black "
-            />
-          </div>
-
-          <div className="mb-5.5 flex flex-col  gap-10 sm:flex-row">
-            <div className="w-full">
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-                className="w-full bg-white outline-none text-xs py-3 px-5 text-black "
               />
             </div>
           </div>
